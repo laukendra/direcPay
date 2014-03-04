@@ -11,16 +11,17 @@ class DirecPayController {
 
         //TODO:validate requestCommand object
 
-        String encryptRequestParameter = DirecPayUtil.encrypt(command.getRequestParameter());
-        String encryptBillingDetail = DirecPayUtil.encrypt(command.getBillingDetail())
-        String encryptShippingDetail = DirecPayUtil.encrypt(command.getShippingDetail());
+        String encryptRequestParameter = command.getEncryptedRequestParameter()
+        String encryptBillingDetail = command.getEncryptedBillingDetail()
+        String encryptShippingDetail = command.getEncryptedShippingDetail()
+        String encryptedStoreDetails = command.getEncryptedStoreCardDetail()
 
         String direcPayURL = DirecPayUtil.getConfig("direcPay.URL")
         String merchantId = DirecPayUtil.getConfig("direcPay.merchantId")
 
         log.debug("payment with merchantId: ${merchantId} and direcPayURL: ${direcPayURL}")
 
-        render(view: 'index', model: [direcPayURL: direcPayURL, requestparameter: encryptRequestParameter, billingDtls: encryptBillingDetail, shippingDtls: encryptShippingDetail, merchantId: merchantId])
+        render(view: 'index', model: [direcPayURL: direcPayURL, requestparameter: encryptRequestParameter, billingDtls: encryptBillingDetail, shippingDtls: encryptShippingDetail, merchantId: merchantId, storeDtls: encryptedStoreDetails])
     }
 
     def paymentSuccess() {

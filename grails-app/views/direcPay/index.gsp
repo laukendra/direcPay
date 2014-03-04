@@ -20,6 +20,7 @@
                 <input type="hidden" name="billingDtls" value="${billingDtls}"/>
                 <input type="hidden" name="shippingDtls" value="${shippingDtls}"/>
                 <input type="hidden" name="merchantId" value="${merchantId}"/>
+                <input type="hidden" name="storeDtls" value="${storeDtls}">
                 <input type="submit" id="submit" name="submit" value="Submit"/>
             </td>
         </tr>
