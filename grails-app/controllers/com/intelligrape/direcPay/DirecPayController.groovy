@@ -1,53 +1,38 @@
 package com.intelligrape.direcPay
 
-import com.intelligrape.direcPay.common.Util
-import com.intelligrape.direcPay.dto.BillingDetailDto
-import com.intelligrape.direcPay.dto.PaymentResponseDto
-import com.intelligrape.direcPay.dto.RequestParameterDto
-import com.intelligrape.direcPay.dto.ShippingDetailDto
+import com.intelligrape.direcPay.command.PaymentRequestCommand
+import com.intelligrape.direcPay.command.PaymentResponseCommand
+import com.intelligrape.direcPay.common.DirecPayUtil
 
 class DirecPayController {
 
-    def index() {
-        RequestParameterDto requestParameterDto = new RequestParameterDto()
-        BillingDetailDto billingDetailDto = new BillingDetailDto()
-        ShippingDetailDto shippingDetailDto = new ShippingDetailDto()
+    def index(PaymentRequestCommand requestCommand) {
+        PaymentRequestCommand command = new PaymentRequestCommand()
 
-        String encryptRequestParameter = Util.encrypt(requestParameterDto.getRequestParameter());
-        String encryptBillingDetail = Util.encrypt(billingDetailDto.getBillingDetail())
-        String encryShippingDetail = Util.encrypt(shippingDetailDto.getShippingDetail());
+        //TODO:validate requestCommand object
 
-        String merchantId = Util.getConfig("direcPay.merchantId")
+        String encryptRequestParameter = DirecPayUtil.encrypt(command.getRequestParameter());
+        String encryptBillingDetail = DirecPayUtil.encrypt(command.getBillingDetail())
+        String encryptShippingDetail = DirecPayUtil.encrypt(command.getShippingDetail());
 
-        render(view: 'index', model: [requestparameter: encryptRequestParameter, billingDtls: encryptBillingDetail, shippingDtls: encryShippingDetail, merchantId: merchantId])
+        String direcPayURL = DirecPayUtil.getConfig("direcPay.URL")
+        String merchantId = DirecPayUtil.getConfig("direcPay.merchantId")
+
+        log.debug("payment with merchantId: ${merchantId} and direcPayURL: ${direcPayURL}")
+
+        render(view: 'index', model: [direcPayURL: direcPayURL, requestparameter: encryptRequestParameter, billingDtls: encryptBillingDetail, shippingDtls: encryptShippingDetail, merchantId: merchantId])
     }
-
-    def payment() {
-        RequestParameterDto requestParameterDto = new RequestParameterDto()
-        BillingDetailDto billingDetailDto = new BillingDetailDto()
-        ShippingDetailDto shippingDetailDto = new ShippingDetailDto()
-
-        String encryptRequestParameter = Util.encrypt(requestParameterDto.getRequestParameter());
-        String encryptBillingDetail = Util.encrypt(billingDetailDto.getBillingDetail())
-        String encryShippingDetail = Util.encrypt(shippingDetailDto.getShippingDetail());
-
-        String direcParUrl = Util.getConfig("direcPay.URL")
-        String merchantId = Util.getConfig("direcPay.merchantId")
-
-        redirect(url: direcParUrl, requestparameter: encryptRequestParameter, billingDtls: encryptBillingDetail, shippingDtls: encryShippingDetail, merchantId: merchantId)
-    }
-
 
     def paymentSuccess() {
-        println "paymentSuccess....................,\nparams: ${params.dump()},\nresponse: ${response.dump()}"
-        PaymentResponseDto responseDto = PaymentResponseDto.populateDto(params.responseparams)
-        render(view: 'paymentSuccess', model: [response: response, responseDto: responseDto])
+        log.debug("paymentSuccess.....,\nparams: ${params.dump()},\nresponse: ${response.dump()}")
+        PaymentResponseCommand responseCommand = PaymentResponseCommand.populate(params.responseparams)
+        render(view: 'paymentSuccess', model: [responseCommand: responseCommand])
     }
 
     def paymentFailure() {
-        println "paymentFailure....................,\nparams: ${params.dump()},\nresponse: ${response.dump()}"
-        PaymentResponseDto responseDto = PaymentResponseDto.populateDto(params.responseparams)
-        render(view: 'paymentFailure', model: [response: response, responseDto: responseDto])
+        log.debug("paymentFailure.....,\nparams: ${params.dump()},\nresponse: ${response.dump()}")
+        PaymentResponseCommand responseCommand = PaymentResponseCommand.populate(params.responseparams)
+        render(view: 'paymentFailure', model: [responseCommand: responseCommand])
     }
 
 }

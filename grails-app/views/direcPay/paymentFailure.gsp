@@ -2,20 +2,14 @@
 
 <head>
     <title>DirecPay Failure Response</title>
-
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <meta name="layout" content="kickstart"/>
-    <g:set var="layout_nomainmenu" value="${true}" scope="request"/>
-    <g:set var="layout_nosecondarymenu" value="${true}" scope="request"/>
 </head>
 
-<body>
-<h1 style="background-color: red">DirecPay Failure Response</h1>
+<body style="background-color: hsl(29, 80%, 87%);text-align: center">
 
-<p style="background-color: #e3e5e9"><strong>response:</strong>${response.dump()}</p>
+<h1>DirecPay Failure Response</h1>
 
-<p style="background-color: #e3e5e9"><strong>params:</strong>${params.dump()}</p>
+${responseCommand.dump()}
 
-<p style="background-color: #e3e5e9"><strong>responseDto:</strong>${responseDto.dump()}</p>
 </body>
 </html>
