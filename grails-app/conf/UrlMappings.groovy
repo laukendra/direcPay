@@ -13,6 +13,8 @@ class UrlMappings {
         "/paymentSuccess"(controller: 'direcPay', action: 'paymentSuccess')
         "/paymentFailure"(controller: 'direcPay', action: 'paymentFailure')
         "/payment"(controller: 'direcPay', action: 'payment')
+        "/pullPaymentDetails"(controller: 'direcPay', action: 'pullPaymentDetails')
+        "/paymentDetails"(controller: 'direcPay', action: 'paymentTransactionDetails')
 
         "500"(view: '/error')
     }

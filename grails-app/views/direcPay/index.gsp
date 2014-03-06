@@ -8,10 +8,11 @@
     <title>DirecPay Payment</title>
 </head>
 
-<body style="display: none">
+<body style="text-align: center">
+<span>${loadingText}</span>
 
 <form id="direcPayForm" name="direcPayForm"
-      action="${direcPayURL}" method="post">
+      action="${direcPayURL}" method="post" style="display: none">
 
     <table>
         <tr height="100%">
