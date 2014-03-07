@@ -21,7 +21,9 @@
                 <input type="hidden" name="billingDtls" value="${billingDtls}"/>
                 <input type="hidden" name="shippingDtls" value="${shippingDtls}"/>
                 <input type="hidden" name="merchantId" value="${merchantId}"/>
-                <input type="hidden" name="storeDtls" value="${storeDtls}">
+                <g:if test="${isStoreCard}">
+                    <input type="hidden" name="storeDtls" value="${storeDtls}">
+                </g:if>
                 <input type="submit" id="submit" name="submit" value="Submit"/>
             </td>
         </tr>

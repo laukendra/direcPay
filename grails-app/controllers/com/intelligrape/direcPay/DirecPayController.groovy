@@ -4,7 +4,7 @@ import com.intelligrape.direcPay.command.PaymentRequestCommand
 import com.intelligrape.direcPay.common.DirecPayUtility
 
 class DirecPayController {
-//    static allowedMethods = [index: "POST", pullPaymentDetails: "POST"]
+//    static allowedMethods = [index: "POST"]
 
     DirecPayService direcPayService
 
@@ -35,21 +35,22 @@ class DirecPayController {
 
         println("Payment with merchantId: ${merchantId} and direcPayURL: ${direcPayURL}")
 
-        render(view: 'index', model: [direcPayURL: direcPayURL, requestparameter: encryptRequestParameter, billingDtls: encryptBillingDetail, shippingDtls: encryptShippingDetail, merchantId: merchantId, storeDtls: encryptedStoreDetails, loadingText: loadingText])
+        render(view: 'index', model: [direcPayURL: direcPayURL, requestparameter: encryptRequestParameter, billingDtls: encryptBillingDetail, shippingDtls: encryptShippingDetail, merchantId: merchantId, storeDtls: encryptedStoreDetails, isStoreCard: (command.customerId ? true : false), loadingText: loadingText])
     }
 
     //TODO: need to fix
     def pullPaymentDetails() {
 //        String requestparams = "1001403000365347|${DirecPayUtility.getConfig("direcPay.merchantId")}|${DirecPayUtility.getConfig("direcPay.return.transaction.details.URL")}"
-        String requestparams = "1001403000365347|${DirecPayUtility.getConfig("direcPay.merchantId")}|http://localhost:8080/DirecPay/returnTransactionDetail"
+        String requestparams = "1001403000365347|${DirecPayUtility.getConfig("direcPay.merchantId")}|http://localhost:8080/DirecPayTest/returnPaymentDetails"
         log.debug "pullPaymentDetails, requestparams: ${requestparams}"
         render(view: 'direcPayPullTransactionDetails', model: [requestparams: requestparams, loadingText: DirecPayUtility.getConfig("direcPay.loadingText"), direcPayPullTransactionDetailsURL: DirecPayUtility.getConfig("direcPay.pull.transaction.details.URL")])
     }
 
     //TODO: need to fix
-    def paymentTransactionDetails() {
-        println("paymentTransactionDetails.....,\nparams: ${params.dump()},\nresponse: ${response.dump()}")
-        render(view: 'paymentTransactionDetails')
+    def returnPaymentDetails() {
+        println("returnPaymentDetails.....,\nparams: ${params.dump()},\nresponse: ${response.dump()}")
+        direcPayService.update(params.requestparams)
+        render(view: 'returnPaymentDetails')
     }
 
 }

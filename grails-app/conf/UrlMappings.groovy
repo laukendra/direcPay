@@ -9,7 +9,7 @@ class UrlMappings {
 
         "/"(controller: 'direcPay', action: 'index')
         "/pullPaymentDetails"(controller: 'direcPay', action: 'pullPaymentDetails')
-        "/paymentDetails"(controller: 'direcPay', action: 'paymentTransactionDetails')
+        "/returnPaymentDetails"(controller: 'direcPay', action: 'returnPaymentDetails')
 
         "500"(view: '/error')
     }
